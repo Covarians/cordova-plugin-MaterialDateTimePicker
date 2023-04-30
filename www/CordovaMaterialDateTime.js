@@ -23,7 +23,7 @@ let Timepickerargs = {
     mintime:'', // ARRAY of HOURS, MINUTES, SECONDS [23,12,44]
     maxtime:'', // ARRAY of HOURS, MINUTES, SECONDS [23,12,44]
     enableSeconds:false,
-    enableminute:true,
+    enableMinutes:true,
     vibrateontouch:true,
 }*/
 
@@ -55,8 +55,8 @@ exports.TimePicker = function (arg0) {
         arg.push(arg0.mintime || []);
         arg.push(arg0.maxtime || []);
         arg.push(arg0.enableSeconds || false);
-        arg.push(arg0.enableminute || true);
-        arg.push(arg0.vibrateontouch || true);
+        arg.push(arg0.enableMinutes || false);
+        arg.push(arg0.vibrateontouch || false);
         exec((success)=>{res(success)}, (error)=>{rej(error)}, 'CordovaMaterialDateTime', 'timepicker', arg);
     })
 

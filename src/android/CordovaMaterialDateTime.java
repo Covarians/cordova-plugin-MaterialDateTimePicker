@@ -46,9 +46,9 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
                 JSONArray mintime = args.getJSONArray(4);
                 JSONArray maxtime = args.getJSONArray(5);
                 Boolean enableSeconds = args.getBoolean(6);
-                Boolean enableminutes = args.getBoolean(7);
+                Boolean enableMinutes = args.getBoolean(7);
                 Boolean vibrateontouch = args.getBoolean(8);
-                this.Timepicker(title, color, oktext, canceltext, mintime, maxtime,enableSeconds, enableminutes, vibrateontouch,  callbackContext);
+                this.Timepicker(title, color, oktext, canceltext, mintime, maxtime,enableSeconds, enableMinutes, vibrateontouch,  callbackContext);
                 return true;
             }
         }
@@ -134,7 +134,7 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
            }
        }
 
-    private void Timepicker(String title, String color, String oktext, String canceltext, JSONArray mintime, JSONArray maxtime, Boolean enableSeconds, Boolean enableminutes, Boolean vibrateontouch, CallbackContext callbackContext) {
+    private void Timepicker(String title, String color, String oktext, String canceltext, JSONArray mintime, JSONArray maxtime, Boolean enableSeconds, Boolean enableMinutes, Boolean vibrateontouch, CallbackContext callbackContext) {
         if (1==1) {
             Calendar now = Calendar.getInstance();
             TimePickerDialog dpd =  TimePickerDialog.newInstance(
@@ -173,14 +173,20 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
             if(maxtime.length() > 0){
 
                 try{
-                    dpd.setMinTime(maxtime.getInt(0),maxtime.getInt(1),maxtime.getInt(2));
+                    dpd.setMaxTime(maxtime.getInt(0),maxtime.getInt(1),maxtime.getInt(2));
                 }catch (Exception e){
                     callbackContext.error("Error in maxtime : "+e.toString());
                 }
             }
-
+            
+            dpd.enableSeconds(enableSeconds);
+            dpd.enableMinutes(enableMinutes);
+            dpd.setTimeInterval(1,enableMinutes ? 1 : 60, enableSeconds ? 1 : 60);
 
             dpd.vibrate(vibrateontouch);
+
+            // Specific Covarians 
+            dpd.setLocale(Locale.UK);
 
             /*dpd.setThemeDark(true);*/
             /*dpd.setAccentColor(Color.parseColor("#9C27B0"));*/
