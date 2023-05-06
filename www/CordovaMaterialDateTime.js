@@ -16,6 +16,9 @@ var exec = require('cordova/exec');
 
 /*
 let Timepickerargs = {
+    hours:'',
+    minutes:'',
+    seconds:'',
     title:'',
     color:'',
     oktext:'', // OK button text
@@ -48,6 +51,9 @@ exports.DatePicker = function (arg0) {
 exports.TimePicker = function (arg0) {
     return new Promise((res,rej)=>{
         let arg =[];
+        arg.push(arg0.hours || '');
+        arg.push(arg0.minutes || '');
+        arg.push(arg0.seconds || '');
         arg.push(arg0.title || '');
         arg.push(arg0.color || '');
         arg.push(arg0.oktext || '');

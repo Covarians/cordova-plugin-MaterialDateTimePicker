@@ -39,16 +39,19 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
             return true;
         }else{
             if (action.equals("timepicker")){
-                String title = args.getString(0);
-                String color = args.getString(1);
-                String oktext = args.getString(2);
-                String canceltext = args.getString(3);
-                JSONArray mintime = args.getJSONArray(4);
-                JSONArray maxtime = args.getJSONArray(5);
-                Boolean enableSeconds = args.getBoolean(6);
-                Boolean enableMinutes = args.getBoolean(7);
-                Boolean vibrateontouch = args.getBoolean(8);
-                this.Timepicker(title, color, oktext, canceltext, mintime, maxtime,enableSeconds, enableMinutes, vibrateontouch,  callbackContext);
+                String hours = args.getString(0);
+                String minutes = args.getString(1);
+                String seconds = args.getString(2);
+                String title = args.getString(3);
+                String color = args.getString(4);
+                String oktext = args.getString(5);
+                String canceltext = args.getString(6);
+                JSONArray mintime = args.getJSONArray(7);
+                JSONArray maxtime = args.getJSONArray(8);
+                Boolean enableSeconds = args.getBoolean(9);
+                Boolean enableMinutes = args.getBoolean(10);
+                Boolean vibrateontouch = args.getBoolean(11);
+                this.Timepicker(hours, minutes, seconds, title, color, oktext, canceltext, mintime, maxtime,enableSeconds, enableMinutes, vibrateontouch,  callbackContext);
                 return true;
             }
         }
@@ -134,7 +137,7 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
            }
        }
 
-    private void Timepicker(String title, String color, String oktext, String canceltext, JSONArray mintime, JSONArray maxtime, Boolean enableSeconds, Boolean enableMinutes, Boolean vibrateontouch, CallbackContext callbackContext) {
+    private void Timepicker(String hours, String minutes, String seconds, String title, String color, String oktext, String canceltext, JSONArray mintime, JSONArray maxtime, Boolean enableSeconds, Boolean enableMinutes, Boolean vibrateontouch, CallbackContext callbackContext) {
         if (1==1) {
             Calendar now = Calendar.getInstance();
             TimePickerDialog dpd =  TimePickerDialog.newInstance(
@@ -145,9 +148,10 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
                             Log.d("Orignal", "Got clicked");
                         }
                     },
-                    now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE),
-                    true
+                    hours,
+                    minutes,
+                    seconds,
+                    true    // 24 hours format
             );
             if(title != null && title.length() > 0){
                 dpd.setTitle(title);
