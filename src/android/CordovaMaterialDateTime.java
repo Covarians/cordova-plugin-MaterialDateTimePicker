@@ -148,9 +148,9 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
                             Log.d("Orignal", "Got clicked");
                         }
                     },
-                    hours,
-                    minutes,
-                    seconds,
+                    Integer.parseInt(hours),
+                    Integer.parseInt(minutes),
+                    Integer.parseInt(seconds),
                     true    // 24 hours format
             );
             if(title != null && title.length() > 0){
