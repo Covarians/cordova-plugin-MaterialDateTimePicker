@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-materialdatetime",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A cordova plugin based on material Date and Time pickers",
   "cordova": {
     "id": "cordova-plugin-materialdatetime",
