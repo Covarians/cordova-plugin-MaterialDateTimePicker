@@ -116,7 +116,8 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
                        for (int i = 0; i < highlitedDates.length(); i++) {
                            String datestring = highlitedDates.getString(i);
                            Date date = sdf.parse(datestring);// all done
-                           Calendar cal = sdf.getCalendar();
+                           Calendar cal = Calendar.getInstance();
+                           cal.setTime(date);
                            Final[i]=cal;
 
                        }
