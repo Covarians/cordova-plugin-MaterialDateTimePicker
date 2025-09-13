@@ -41,8 +41,8 @@ exports.DatePicker = function (arg0) {
         arg.push(arg0.maxdate || '');
         arg.push(arg0.highlitedDates || []);
         arg.push(arg0.showyearpickerbeforemonth || false);
-        arg.push(arg0.vibrateontouch || true);
-        arg.push(arg0.autodismiss || true);
+        arg.push(arg0.vibrateontouch || false);
+        arg.push(arg0.autodismiss || false);
         exec((success)=>{res(success)}, (error)=>{rej(error)}, 'CordovaMaterialDateTime', 'datepicker', arg);
     })
    
