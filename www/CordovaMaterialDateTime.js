@@ -12,6 +12,7 @@ var exec = require('cordova/exec');
     showyearpickerbeforemonth:false,
     vibrateontouch:true,
     autodismiss:true, // DIsmiss when choosing a date automatically
+    selectedDate:'', // MUST BE IN dd-MM-yyyy format
 }*/
 
 /*
@@ -43,6 +44,7 @@ exports.DatePicker = function (arg0) {
         arg.push(arg0.showyearpickerbeforemonth || false);
         arg.push(arg0.vibrateontouch || false);
         arg.push(arg0.autodismiss || false);
+        arg.push(arg0.selectedDate || '');
         exec((success)=>{res(success)}, (error)=>{rej(error)}, 'CordovaMaterialDateTime', 'datepicker', arg);
     })
    
