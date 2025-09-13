@@ -140,8 +140,6 @@ private void coolMethod(String title, String color, String oktext, String cancel
 						cal.set(Calendar.SECOND, 0);
 						cal.set(Calendar.MILLISECOND, 0);
 						Final[i] = cal;
-
-						Log.d("CordovaDatePicker", "Highlighting: " + datestring);
 					}
 					dpd.setHighlightedDays(Final);
 				} catch (Exception e) {
