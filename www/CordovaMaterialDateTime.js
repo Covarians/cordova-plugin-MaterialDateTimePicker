@@ -6,13 +6,13 @@ var exec = require('cordova/exec');
     color:'',
     oktext:'', // OK button text
     canceltext:'', // Cancel button text
-    mindate:'', // MUST BE IN dd-MM-yyyy format
-    maxdate:'', // MUST BE IN dd-MM-yyyy format
-    highlitedDates:['',''], // DATES MUST BE IN dd-MM-yyyy format
+    mindate:'', // MUST BE IN ISO yyyy-MM-dd format
+    maxdate:'', // MUST BE IN ISO yyyy-MM-dd format
+    highlitedDates:['',''], // DATES MUST BE IN ISO yyyy-MM-dd format
     showyearpickerbeforemonth:false,
     vibrateontouch:true,
     autodismiss:true, // DIsmiss when choosing a date automatically
-    selectedDate:'', // MUST BE IN dd-MM-yyyy format
+    selectedDate:'', // MUST BE IN ISO yyyy-MM-dd format
 }*/
 
 /*

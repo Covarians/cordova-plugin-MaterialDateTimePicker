@@ -35,9 +35,7 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
 			Boolean vibrateontouch = args.getBoolean(8);
 			Boolean autodismiss = args.getBoolean(9);
 			String selectedDate = args.getString(10);
-			Log.d("CordovaDatePicker", "Selected date: " + selectedDate);
-
-			this.coolMethod(title, color, oktext, canceltext, mindate, maxdate, highlightedDates, showyearpickerbeforemonth, vibrateontouch, autodismiss, selectedDate, callbackContext);
+			this.Datepicker(title, color, oktext, canceltext, mindate, maxdate, highlightedDates, showyearpickerbeforemonth, vibrateontouch, autodismiss, selectedDate, callbackContext);
 			return true;
 		}else{
 			if (action.equals("timepicker")){
@@ -60,103 +58,97 @@ public class CordovaMaterialDateTime extends CordovaPlugin {
 		return false;
 	}
 
-private void coolMethod(String title, String color, String oktext, String canceltext, String mindate, String maxdate, JSONArray highlightedDates, Boolean showyearpickerbeforemonth, Boolean vibrateontouch, Boolean autodismiss, String selectedDate, CallbackContext callbackContext) {
-		if (1 == 1) {
-			Calendar initialDate = Calendar.getInstance(); // default today
-			if (selectedDate != null && selectedDate.length() > 0) {
-				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-					Date date = sdf.parse(selectedDate);
-					initialDate.setTime(date);
-				} catch (Exception e) {
-					callbackContext.error("Invalid selected date: " + e.toString());
-					return;
-				}
-			}
-			DatePickerDialog dpd =  DatePickerDialog.newInstance(
-										new DatePickerDialog.OnDateSetListener(){
-											@Override
-											public void onDateSet(DatePickerDialog view, int year, int month, int dayOfMonth) {
-												Calendar selected = Calendar.getInstance();
-												// month stays 0..11 here
-												selected.set(year, month, dayOfMonth);
-												SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-												String dateStr = sdf.format(selected.getTime()); // e.g. "13-09-2025"
-												callbackContext.success(dateStr);
-												Log.d("CordovaDatePicker", "Clicked: " + dateStr);
-											}
-										},
-										initialDate.get(Calendar.YEAR),
-										initialDate.get(Calendar.MONTH),
-										initialDate.get(Calendar.DAY_OF_MONTH)
-										);
+private void Datepicker(
+        String title,
+        String color,
+        String oktext,
+        String canceltext,
+        String mindate,
+        String maxdate,
+        JSONArray highlightedDates,
+        Boolean showyearpickerbeforemonth,
+        Boolean vibrateontouch,
+        Boolean autodismiss,
+        String selectedDate,
+        CallbackContext callbackContext) {
 
-			if(title != null && title.length() > 0){
-				dpd.setTitle(title);
-			}
-			if(color != null && color.length() > 0){
-				dpd.setAccentColor(color);
-			}
-			if(oktext != null && oktext.length() > 0){
-				dpd.setOkText(oktext);
-			}
-			if(canceltext != null && canceltext.length() > 0){
-				dpd.setCancelText(canceltext);
-			}
-			if(mindate != null && mindate.length() > 0){
-				try{
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-					Date date = sdf.parse(mindate);// all done
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);
-					dpd.setMinDate(cal);
-				}catch (Exception e){
-					callbackContext.error(e.toString());
-				}
-			}
-			if(maxdate != null && maxdate.length() > 0){
-				try{
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-					Date date = sdf.parse(maxdate);// all done
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(date);
-					dpd.setMaxDate(cal);
-				}catch (Exception e){
-					callbackContext.error(e.toString());
-				}
-			}
-			if (highlightedDates.length() > 0) {
-				Calendar[] Final = new Calendar[highlightedDates.length()];
-				try {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+    SimpleDateFormat iso = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    iso.setLenient(false); // stricter parsing
 
-					for (int i = 0; i < highlightedDates.length(); i++) {
-						String datestring = highlightedDates.getString(i);
-						Date date = sdf.parse(datestring);
-						Calendar cal = Calendar.getInstance();
-						cal.setTime(date);
-						cal.set(Calendar.HOUR_OF_DAY, 0);
-						cal.set(Calendar.MINUTE, 0);
-						cal.set(Calendar.SECOND, 0);
-						cal.set(Calendar.MILLISECOND, 0);
-						Final[i] = cal;
-					}
-					dpd.setHighlightedDays(Final);
-				} catch (Exception e) {
-					callbackContext.error(e.toString());
-				}
-			}
-			dpd.showYearPickerFirst(showyearpickerbeforemonth);
-			dpd.vibrate(vibrateontouch);
-			dpd.autoDismiss(autodismiss);
-			/*dpd.setThemeDark(true);*/
-			/*dpd.setAccentColor(Color.parseColor("#9C27B0"));*/
-	 		dpd.show(cordova.getActivity().getFragmentManager(),"Datepickerdialog");
+    try {
+        Calendar initialDate = Calendar.getInstance(); // default today
 
-		} else {
-		callbackContext.error("Expected one non-empty string argument.");
-		}
-	}
+        // Set initial date if provided
+        if (selectedDate != null && !selectedDate.isEmpty()) {
+            Date date = iso.parse(selectedDate);
+            initialDate.setTime(date);
+        }
+
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+            new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePickerDialog view, int year, int month, int dayOfMonth) {
+                    Calendar selected = Calendar.getInstance();
+                    selected.set(year, month, dayOfMonth);
+                    String dateStr = iso.format(selected.getTime()); // ISO format out
+                    callbackContext.success(dateStr);
+                    Log.d("CordovaDatePicker", "Clicked: " + dateStr);
+                }
+            },
+            initialDate.get(Calendar.YEAR),
+            initialDate.get(Calendar.MONTH),
+            initialDate.get(Calendar.DAY_OF_MONTH)
+        );
+
+        if (title != null && !title.isEmpty()) dpd.setTitle(title);
+        if (color != null && !color.isEmpty()) dpd.setAccentColor(color);
+        if (oktext != null && !oktext.isEmpty()) dpd.setOkText(oktext);
+        if (canceltext != null && !canceltext.isEmpty()) dpd.setCancelText(canceltext);
+
+        // Min date
+        if (mindate != null && !mindate.isEmpty()) {
+            Date date = iso.parse(mindate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            dpd.setMinDate(cal);
+        }
+
+        // Max date
+        if (maxdate != null && !maxdate.isEmpty()) {
+            Date date = iso.parse(maxdate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            dpd.setMaxDate(cal);
+        }
+
+        // Highlighted dates
+        if (highlightedDates.length() > 0) {
+            Calendar[] finalDates = new Calendar[highlightedDates.length()];
+            for (int i = 0; i < highlightedDates.length(); i++) {
+                String dateStr = highlightedDates.getString(i);
+                Date date = iso.parse(dateStr);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                finalDates[i] = cal;
+            }
+            dpd.setHighlightedDays(finalDates);
+        }
+
+        dpd.showYearPickerFirst(showyearpickerbeforemonth);
+        dpd.vibrate(vibrateontouch);
+        dpd.autoDismiss(autodismiss);
+
+        dpd.show(cordova.getActivity().getFragmentManager(), "Datepickerdialog");
+
+    } catch (Exception e) {
+        callbackContext.error("Date parsing error: " + e.toString());
+    }
+}
+
 
 	private void Timepicker(String hours, String minutes, String seconds, String title, String color, String oktext, String canceltext, JSONArray mintime, JSONArray maxtime, Boolean enableSeconds, Boolean enableMinutes, Boolean vibrateontouch, CallbackContext callbackContext) {
 		if (1==1) {
